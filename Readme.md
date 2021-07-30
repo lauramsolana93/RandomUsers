@@ -16,3 +16,17 @@ I've decided to use coroutines to do the interaction between the viewmodel and t
 I've deicided to use rxjava to do the interaction between the viewmodel and the database calls. Database calls have to be done in background so rxjava it's helping me to do this kind of calls and then get the data back to the main thread.
 For the unit tests I've used mockito kotlin, mockk, kotlin coroutines test
 For the integration tests I've used espresso
+
+
+## Screenshots
+Splash Activity
+
+![](screenshots/SplashActivity.png)
+
+All Users Activity
+
+![](screenshots/AllUsersActivity.png)
+
+Single User Activity
+
+![](screenshots/SingleUserActivity.png)
