@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">RandomUsers</string>
+    <string name="network_error_title">Network connection error</string>
+    <string name="network_error_text">Network connection is not available, check your network connection and try it again </string>
+    <string name="try_again">Try Again</string>
+    <string name="no_users_error_title">Impossible to get random users</string>
+    <string name="no_users_error_text">Impossible to get random users, try again later</string>
+    <string name="add_database">Users saved in database</string>
+    <string name="problem_add_database">Can not add users in database</string>
+    <string name="user_deleted">User deleted correctly</string>
+    <string name="problem_user_deleted">Can not delete the user</string>
+    <string name="name">Name: %s</string>
+    <string name="phone">Phone: %s</string>
+    <string name="email">Email: %s</string>
+    <string name="gender">Gender: %s</string>
+    <string name="location">Location: %s</string>
+    <string name="registration">Registration: %s</string>
+
+</resources>
