@@ -21,6 +21,7 @@ import com.adevinta.randomusers.R
 import com.adevinta.randomusers.allusers.model.User
 import com.adevinta.randomusers.allusers.ui.adapter.AllUsersAdapter
 import com.adevinta.randomusers.allusers.viewmodel.AllUsersViewModel
+import com.adevinta.randomusers.common.utils.DRAWABLE_RIGHT
 import com.adevinta.randomusers.common.utils.Resource
 import com.adevinta.randomusers.databinding.ActivityAllUsersBinding
 import com.adevinta.randomusers.di.injectModule
@@ -33,7 +34,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-const val DRAWABLE_RIGHT = 2
 
 class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListener {
 
@@ -45,6 +45,7 @@ class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListe
     private var users = mutableListOf<User>()
     private var page = 0
     private var dbPage = 0
+    private lateinit var imm: InputMethodManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +54,7 @@ class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListe
         val view = binding.root
         setContentView(view)
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+        imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         injectModule()
         setUp()
     }
@@ -82,25 +84,25 @@ class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListe
             }
         })
         binding.searchTextView.setOnTouchListener { _, event ->
-            val imm: InputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
 
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= (binding.searchTextView.right - binding.searchTextView.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
-                    imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+                    hideKeyBoard()
                     binding.searchTextView.text.clear()
                     binding.searchTextView.visibility = GONE
                     updateSearchList(users)
                     binding.searchIcon.visibility = VISIBLE
                 } else {
                     binding.searchTextView.requestFocus()
-                    imm.showSoftInput(binding.searchTextView, InputMethodManager.SHOW_IMPLICIT)
+                    showKeyBoard()
                 }
             }
 
             return@setOnTouchListener true
         }
     }
+
 
     private fun checkSearch(query: String) {
         if (query.isNotBlank()) {
@@ -118,9 +120,7 @@ class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListe
         viewModel.getAllUsersFromDataBase(dbPage)
 
         viewModel.usersDatabase.observe(this, { resultUsers ->
-            isLoading = true
-            binding.loading.loadingView.visibility = VISIBLE
-            binding.loading.loadingAnimation.playAnimation()
+            showLoading()
             resultUsers?.let {
                 if (resultUsers.users == users || resultUsers.users.isEmpty()) {
                     getAllUsers()
@@ -154,9 +154,7 @@ class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListe
                     showErrorDialog()
                 }
                 is Resource.Loading -> {
-                    isLoading = true
-                    binding.loading.loadingView.visibility = VISIBLE
-                    binding.loading.loadingAnimation.playAnimation()
+                    showLoading()
                 }
             }
 
@@ -206,9 +204,7 @@ class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListe
         GlobalScope.launch(Dispatchers.Main) {
             delay(2000)
             updateDataList(usersList)
-            isLoading = false
-            binding.loading.loadingView.visibility = GONE
-            binding.loading.loadingAnimation.cancelAnimation()
+            hideLoading()
         }
     }
 
@@ -268,5 +264,26 @@ class AllUsersActivity : AppCompatActivity(), AllUsersAdapter.ListItemClickListe
         viewModel.error.observe(this, { error ->
             Log.e("SingleUserActivity", " DATABASE: $error")
         })
+    }
+
+    //If there is more than one activity that use this create a base activity
+    private fun showKeyBoard() {
+        imm.showSoftInput(binding.searchTextView, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun hideKeyBoard() {
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+    }
+
+    private fun showLoading() {
+        isLoading = true
+        binding.loading.loadingView.visibility = VISIBLE
+        binding.loading.loadingAnimation.playAnimation()
+    }
+
+    private fun hideLoading() {
+        isLoading = false
+        binding.loading.loadingView.visibility = GONE
+        binding.loading.loadingAnimation.cancelAnimation()
     }
 }

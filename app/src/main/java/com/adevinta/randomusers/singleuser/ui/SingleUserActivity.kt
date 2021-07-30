@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.adevinta.randomusers.R
 import com.adevinta.randomusers.allusers.model.User
+import com.adevinta.randomusers.common.utils.UUID
 import com.adevinta.randomusers.common.utils.dateFormater
 import com.adevinta.randomusers.databinding.ActivitySingleUserBinding
 import com.adevinta.randomusers.di.injectModule
@@ -17,6 +18,7 @@ class SingleUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySingleUserBinding
     private val viewModel: SingleUserViewModel by viewModel()
+    private var uuid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +27,19 @@ class SingleUserActivity : AppCompatActivity() {
         setContentView(view)
         injectModule()
         window.statusBarColor = ContextCompat.getColor(this, R.color.teal_700)
+        getExtras()
         getUserInfo()
     }
 
+    private fun getExtras(){
+        if(intent.hasExtra(UUID)){
+            uuid = intent.extras?.get(UUID).toString()
+        }
+    }
+
     private fun getUserInfo() {
-        if (intent.hasExtra("UUID")) {
-            val uuid = intent.extras?.get("UUID").toString()
-            viewModel.getUserFromDataBase(uuid = uuid)
+        if (uuid != null) {
+            viewModel.getUserFromDataBase(uuid = uuid ?: "")
 
             viewModel.user.observe(this, { result ->
                 bindView(result)
@@ -56,6 +64,10 @@ class SingleUserActivity : AppCompatActivity() {
         Glide.with(binding.root).load(user.picture).circleCrop()
             .placeholder(R.drawable.ic_user_placeholder).into(binding.picture)
 
+        setupListeners()
+    }
+
+    private fun setupListeners(){
         binding.close.setOnClickListener {
             finish()
         }
