@@ -1,7 +1,7 @@
 # Random users app
 
 ## Introduction
-The app have 3 main activies, this app can be used with out internet connection if exist data in the database.
+The app have 3 main activities
 	
 * Splash Activity: we check the the connectivity and we show a pop up to the user if the user doesn't have connectivity the user can decide if he/she wants to contiune.
 
