@@ -8,9 +8,9 @@
     <application
         android:name=".RandomUsersApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_users"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_users_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomUsers">
         <activity android:name=".singleuser.ui.SingleUserActivity"></activity>
