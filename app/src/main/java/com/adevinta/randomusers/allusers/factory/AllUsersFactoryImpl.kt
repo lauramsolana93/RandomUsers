@@ -9,10 +9,7 @@ import com.adevinta.randomusers.allusers.model.UsersResult
 import com.adevinta.randomusers.allusers.repository.AllUsersRepository
 import com.adevinta.randomusers.common.data.databasemodels.entity.UserEntity
 import com.adevinta.randomusers.common.data.networkmodels.UsersResultsResponse
-import com.adevinta.randomusers.common.utils.mapToDeleteEntity
-import com.adevinta.randomusers.common.utils.mapToListOfDelete
-import com.adevinta.randomusers.common.utils.mapToUserEntity
-import com.adevinta.randomusers.common.utils.mapToUserList
+import com.adevinta.randomusers.common.utils.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -39,9 +36,6 @@ class AllUsersFactoryImpl(
         MutableLiveData<List<Delete>>()
     }
 
-    val compositeDisposable = CompositeDisposable()
-
-
     override suspend fun getPagedUsersFormNetwork(page: Int): Response<UsersResultsResponse> {
         return repository.getPagedUsersFormNetwork(page)
     }
@@ -55,10 +49,10 @@ class AllUsersFactoryImpl(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .onErrorComplete {
-                Log.e("DATABASE_ERROR", "${it.message}")
+                Log.e(DATABASE_ERROR, "${it.message}")
                 true
             }.doOnComplete {
-                Log.e("DATABASE_COMPLETE", "DONE")
+                Log.e(DATABASE_COMPLETE, DONE)
             }
             .subscribe()
 
@@ -111,9 +105,6 @@ class AllUsersFactoryImpl(
             .onErrorComplete { throwable ->
                 errorString.value = throwable.message
                 true
-            }
-            .doOnComplete {
-
             }
             .subscribe()
     }

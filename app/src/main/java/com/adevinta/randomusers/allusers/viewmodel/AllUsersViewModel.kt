@@ -88,7 +88,7 @@ class AllUsersViewModel(
     }
 
     fun deleteUsers(user: User) {
-        var delete = Delete(user.uuid)
+        val delete = Delete(user.uuid)
         try {
             factory.deleteUsersFromDataBase(user)
             factory.addDeleteUsers(delete)
