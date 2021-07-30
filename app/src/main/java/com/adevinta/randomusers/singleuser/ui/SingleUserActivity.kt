@@ -24,7 +24,7 @@ class SingleUserActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         injectModule()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.teal_700)
         getUserInfo()
     }
 
