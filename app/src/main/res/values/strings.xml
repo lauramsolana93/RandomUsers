@@ -3,6 +3,7 @@
     <string name="network_error_title">Network connection error</string>
     <string name="network_error_text">Network connection is not available, check your network connection and try it again </string>
     <string name="try_again">Try Again</string>
+    <string name="ok">OK</string>
     <string name="no_users_error_title">Impossible to get random users</string>
     <string name="no_users_error_text">Impossible to get random users, try again later</string>
     <string name="add_database">Users saved in database</string>

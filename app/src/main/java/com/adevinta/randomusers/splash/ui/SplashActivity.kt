@@ -45,11 +45,8 @@ class SplashActivity : AppCompatActivity() {
                     MaterialAlertDialogBuilder(this)
                         .setTitle(getString(R.string.network_error_title))
                         .setMessage(getString(R.string.network_error_text))
-                        .setPositiveButton(getString(R.string.try_again)) { _, _ ->
-                            viewModel.checkNetworkConnection(this)
-                        }
-                        .setNegativeButton("CONTINUE") { _, _ ->
-                            navigateToAllUsers()
+                        .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                            finish()
                         }
                         .setOnDismissListener { viewModel.checkNetworkConnection(this) }
                         .show()
