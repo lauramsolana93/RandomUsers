@@ -23,7 +23,7 @@ class SplashFactoryUnitTest {
     private lateinit var connectivityHelper: ConnectivityHelper
 
     @Before
-    fun setup(){
+    fun setup() {
         connectivityHelper = mock()
         factory = SplashFactoryImpl()
 
@@ -31,7 +31,7 @@ class SplashFactoryUnitTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun checkConnectivityNetwork_shouldCheckConnectivityFromHelper(){
+    fun checkConnectivityNetwork_shouldCheckConnectivityFromHelper() {
         testCoroutineRule.runBlockingTest {
             doReturn(true)
                 .`when`(connectivityHelper)
@@ -39,7 +39,6 @@ class SplashFactoryUnitTest {
             factory.checkNetworkConnection(mock())
         }
     }
-
 
 
 }

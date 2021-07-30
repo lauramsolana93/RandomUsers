@@ -8,13 +8,9 @@ import com.adevinta.randomusers.allusers.model.Street
 import com.adevinta.randomusers.allusers.model.User
 import com.adevinta.randomusers.common.utils.Resource
 import com.adevinta.randomusers.singleuser.factory.SingleUserFactory
-import com.adevinta.randomusers.singleuser.repository.SingleUserRepository
 import com.adevinta.randomusers.utils.TestCoroutineRule
-import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import io.mockk.every
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,7 +26,7 @@ class SingleUserViewModelTest {
 
     private lateinit var factory: SingleUserFactory
     private lateinit var viewModel: SingleUserViewModel
-    private lateinit var observer : Observer<Resource<User>>
+    private lateinit var observer: Observer<Resource<User>>
 
     private val user = User(
         1,
@@ -46,7 +42,7 @@ class SingleUserViewModelTest {
 
 
     @Before
-    fun setup(){
+    fun setup() {
         factory = mock()
         observer = mock()
         viewModel = SingleUserViewModel(factory)
@@ -54,7 +50,7 @@ class SingleUserViewModelTest {
     }
 
     @Test
-    fun getUserFromDatabase_shouldReturnUser(){
+    fun getUserFromDatabase_shouldReturnUser() {
         viewModel.getUserFromDataBase("")
         verify(factory).getUserFromDatabase("")
     }

@@ -1,7 +1,6 @@
 package com.adevinta.randomusers.allusers.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.adevinta.randomusers.common.contextProvider.CoroutineContextProvider
 import com.adevinta.randomusers.common.data.databasemodels.entity.DeleteEntity
 import com.adevinta.randomusers.common.data.databasemodels.entity.UserEntity
 import com.adevinta.randomusers.common.data.networkmodels.InfoResponse
@@ -14,7 +13,6 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.Completable
 import io.reactivex.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
@@ -35,22 +33,23 @@ class AllUsersRepositoryTest {
     private lateinit var repository: AllUsersRepository
     private lateinit var repositoryRx: AllUsersRepository
 
-    private lateinit var database : AllUsersDataBase
+    private lateinit var database: AllUsersDataBase
     private lateinit var api: RandomUsersApiService
 
     private var databaseRx = mockk<AllUsersDataBase>()
     private var apiRx = mockk<RandomUsersApiService>()
-    private val usersResultsResponse = UsersResultsResponse(listOf(),
+    private val usersResultsResponse = UsersResultsResponse(
+        listOf(),
         InfoResponse("", 10, 1, "")
     )
     private val userEntity = UserEntity(
-        1, "", "", "", "", "" ,
+        1, "", "", "", "", "",
         "", "", "", 1, "", "", ""
     )
 
 
     @Before
-    fun setup(){
+    fun setup() {
         api = mock()
         database = mock()
         repository = AllUsersRepositoryImpl(api, database)
@@ -60,7 +59,7 @@ class AllUsersRepositoryTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun getAllUsersFromServer_shouldReturnAllUsers(){
+    fun getAllUsersFromServer_shouldReturnAllUsers() {
         testCoroutineRule.runBlockingTest {
             whenever(api.getRandomUsersByPages(1)).thenReturn(Response.success(usersResultsResponse))
             api.getRandomUsersByPages(1)
@@ -70,27 +69,27 @@ class AllUsersRepositoryTest {
     }
 
     @Test
-    fun getAllUsersFromDataBase_shouldReturnAllUsers(){
+    fun getAllUsersFromDataBase_shouldReturnAllUsers() {
         every { repositoryRx.getPagedUsersFromDatabase(1) } returns Single.just(listOf(userEntity))
     }
 
     @Test
-    fun addDeleteUser_shouldAddDeleteUser(){
+    fun addDeleteUser_shouldAddDeleteUser() {
         every { repositoryRx.getDeleteUsers() } returns Single.just(listOf(DeleteEntity("")))
     }
 
     @Test
-    fun deleteFromDatabase_shouldDeleteUser(){
+    fun deleteFromDatabase_shouldDeleteUser() {
         repositoryRx.deleteUserFromDatabase(userEntity).test()
     }
 
     @Test
-    fun addUsersToDatabase_shouldAddUsers(){
+    fun addUsersToDatabase_shouldAddUsers() {
         repositoryRx.saveUsersToDatabase(listOf(userEntity)).test()
     }
 
     @Test
-    fun addDeletesUsersToDatabase_shouldAddDeletedUser(){
+    fun addDeletesUsersToDatabase_shouldAddDeletedUser() {
         repositoryRx.addDeleteUsersToDataBase(DeleteEntity("")).test()
     }
 

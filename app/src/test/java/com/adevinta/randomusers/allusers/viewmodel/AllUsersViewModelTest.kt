@@ -11,9 +11,6 @@ import com.adevinta.randomusers.utils.TestCoroutineRule
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import io.mockk.every
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -29,10 +26,9 @@ class AllUsersViewModelTest {
     val testCoroutineRule = TestCoroutineRule()
 
     private lateinit var factory: AllUsersFactory
-    private lateinit var repository : AllUsersRepository
-    private lateinit var viewModel : AllUsersViewModel
+    private lateinit var viewModel: AllUsersViewModel
     private lateinit var observer: Observer<Resource<UsersResult>>
-    private lateinit var observerDatabase: Observer<UsersResult>
+
 
     private val usersResult = UsersResult(
         listOf(),
@@ -41,16 +37,15 @@ class AllUsersViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Before
-    fun setup(){
+    fun setup() {
         factory = mock()
         observer = mock()
-        repository = mock()
-        viewModel = AllUsersViewModel(repository, factory)
+        viewModel = AllUsersViewModel(factory)
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun getAllUsers_shouldReturnSuccess(){
+    fun getAllUsers_shouldReturnSuccess() {
         testCoroutineRule.runBlockingTest {
             doReturn(Resource.Success(usersResult))
                 .`when`(factory)
@@ -63,7 +58,7 @@ class AllUsersViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun getAllUsers_shouldReturnError(){
+    fun getAllUsers_shouldReturnError() {
         testCoroutineRule.runBlockingTest {
             doReturn(Resource.Error("Error", null))
                 .`when`(factory)
@@ -76,7 +71,7 @@ class AllUsersViewModelTest {
 
 
     @Test
-    fun getAllUsersFromDatabase_shouldReturnSuccess(){
+    fun getAllUsersFromDatabase_shouldReturnSuccess() {
         viewModel.getAllUsersFromDataBase(1)
         verify(factory).getPagedUsersFromDatabase(1)
     }

@@ -22,12 +22,12 @@ class SplashViewModelTest {
     val testCoroutineRule = TestCoroutineRule()
 
     private lateinit var factory: SplashFactory
-    private lateinit var viewmodel : SplashViewModel
+    private lateinit var viewmodel: SplashViewModel
     private lateinit var observer: Observer<Resource<Boolean>>
 
     @ExperimentalCoroutinesApi
     @Before
-    fun setup(){
+    fun setup() {
         factory = mock()
         observer = mock()
         viewmodel = SplashViewModel(factory)
@@ -35,7 +35,7 @@ class SplashViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun checkNetworkConnection_shouldReturnSuccess(){
+    fun checkNetworkConnection_shouldReturnSuccess() {
         testCoroutineRule.runBlockingTest {
             doReturn(Resource.Success(true))
                 .`when`(factory)
@@ -46,7 +46,7 @@ class SplashViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun checkConnectivityNetwork_shouldReturnError(){
+    fun checkConnectivityNetwork_shouldReturnError() {
         testCoroutineRule.runBlockingTest {
             doReturn(Resource.Error("Error", null))
                 .`when`(factory)
