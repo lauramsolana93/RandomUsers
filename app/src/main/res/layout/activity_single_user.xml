@@ -54,7 +54,7 @@
         tools:text="Laura Martinez" />
 
     <TextView
-        android:id="@+id/phone"
+        android:id="@+id/phone_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -69,10 +69,10 @@
         tools:text="638011565" />
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/email_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/phone"
+        app:layout_constraintTop_toBottomOf="@+id/phone_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteX="16dp"
@@ -85,10 +85,10 @@
         android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/gender"
+        android:id="@+id/gender_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/email_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteX="16dp"
@@ -104,7 +104,7 @@
         android:id="@+id/loacation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/gender"
+        app:layout_constraintTop_toBottomOf="@+id/gender_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteX="16dp"
@@ -117,7 +117,7 @@
         android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/register_date"
+        android:id="@+id/register_date_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/loacation"

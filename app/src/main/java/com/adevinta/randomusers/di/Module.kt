@@ -7,6 +7,7 @@ import com.adevinta.randomusers.allusers.factory.AllUsersFactoryImpl
 import com.adevinta.randomusers.allusers.repository.AllUsersRepository
 import com.adevinta.randomusers.allusers.repository.AllUsersRepositoryImpl
 import com.adevinta.randomusers.allusers.viewmodel.AllUsersViewModel
+import com.adevinta.randomusers.allusers.viewmodel.AllUsersViewModelImpl
 import com.adevinta.randomusers.common.database.AllUsersDataBase
 import com.adevinta.randomusers.common.network.RandomUsersApiService
 import com.adevinta.randomusers.singleuser.factory.SingleUserFactory
@@ -14,9 +15,11 @@ import com.adevinta.randomusers.singleuser.factory.SingleUserFactoryImpl
 import com.adevinta.randomusers.singleuser.repository.SingleUserRepository
 import com.adevinta.randomusers.singleuser.repository.SingleUserRepositoryImpl
 import com.adevinta.randomusers.singleuser.viewmodel.SingleUserViewModel
+import com.adevinta.randomusers.singleuser.viewmodel.SingleUserViewModelImpl
 import com.adevinta.randomusers.splash.factory.SplashFactory
 import com.adevinta.randomusers.splash.factory.SplashFactoryImpl
 import com.adevinta.randomusers.splash.viewmodel.SplashViewModel
+import com.adevinta.randomusers.splash.viewmodel.SplashViewModelImpl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,6 +27,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,25 +49,25 @@ private val serviceProvider = initRetrofit()
 
 val viewModelModule: Module = module {
     viewModel {
-        SplashViewModel(factory = get())
-    }
+        SplashViewModelImpl(factory = get())
+    } bind SplashViewModel::class
     viewModel {
-        AllUsersViewModel(factory = get())
-    }
+        AllUsersViewModelImpl(factory = get())
+    } bind AllUsersViewModel::class
     viewModel {
-        SingleUserViewModel(factory = get())
-    }
+        SingleUserViewModelImpl(factory = get())
+    } bind SingleUserViewModel::class
 }
 
 val factoryModule: Module = module {
-    single<SplashFactory> { SplashFactoryImpl() }
-    single<AllUsersFactory> { AllUsersFactoryImpl(repository = get()) }
-    single<SingleUserFactory> { SingleUserFactoryImpl(repository = get()) }
+    single { SplashFactoryImpl() } bind SplashFactory::class
+    single { AllUsersFactoryImpl(repository = get()) } bind AllUsersFactory::class
+    single { SingleUserFactoryImpl(repository = get()) } bind SingleUserFactory::class
 }
 
 val repositoryModule: Module = module {
-    single<AllUsersRepository> { AllUsersRepositoryImpl(serviceProvider, database = get()) }
-    single<SingleUserRepository> { SingleUserRepositoryImpl(database = get()) }
+    single { AllUsersRepositoryImpl(serviceProvider, database = get()) } bind AllUsersRepository::class
+    single { SingleUserRepositoryImpl(database = get()) } bind SingleUserRepository::class
 }
 
 val database: Module = module {
@@ -77,7 +81,7 @@ val database: Module = module {
 }
 
 fun initRetrofit(): RandomUsersApiService {
-    var client = OkHttpClient.Builder().apply {
+    val client = OkHttpClient.Builder().apply {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         addInterceptor(interceptor)

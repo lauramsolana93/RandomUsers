@@ -16,5 +16,6 @@
     <string name="gender">Gender: %s</string>
     <string name="location">Location: %s</string>
     <string name="registration">Registration: %s</string>
+    <string name="user_name">User Name</string>
 
 </resources>
