@@ -13,15 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_users_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomUsers">
-        <activity android:name=".singleuser.ui.SingleUserActivity"></activity>
-        <activity android:name=".splash.ui.SplashActivity">
+        <activity android:name=".singleuser.ui.SingleUserActivity"
+            android:exported="false"/>
+        <activity android:name=".splash.ui.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".allusers.ui.AllUsersActivity"/>
+        <activity android:name=".allusers.ui.AllUsersActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
